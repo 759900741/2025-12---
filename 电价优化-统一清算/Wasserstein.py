@@ -1,12 +1,14 @@
 import numpy as np
-import numpy as np
 from scipy.stats import wasserstein_distance
 import matplotlib.pyplot as plt
 import gurobipy as gp
 from gurobipy import GRB, quicksum
 #由电网公司自行进行调配，或者让CDP直接自己
 def compute_K(rho, Fr_center_mean):
-    return 2 * np.sqrt(1 / 2 / rho * ( 1+ np.log(np.exp(rho) * (Fr_center_mean))))
+    rho = max(float(rho), 1e-9)
+    moment = max(float(Fr_center_mean), 1e-12)
+    inner = (1.0 + rho + np.log(moment)) / (2.0 * rho)
+    return 2.0 * np.sqrt(max(inner, 0.0))
 
 def compute_eplsilon(K, partial, r):
     return K * np.sqrt(2 / r * np.log(1 / (1 - partial)))

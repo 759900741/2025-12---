@@ -3,10 +3,20 @@ from gurobipy import GRB, quicksum
 from Wasserstein import *
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from PV_96 import *
 from W_96_平滑性惩罚项 import *
 import random
-
+from market_analysis_utils import (
+    build_analysis_text,
+    build_market_diagnostics,
+    load_price_income,
+    plot_bid_panels,
+    plot_residual_vs_bid,
+    prepare_market_inputs,
+)
+plt.rcParams['font.sans-serif'] = ['SimHei']        # 使用黑体显示中文
+plt.rcParams['axes.unicode_minus'] = False          # 正常显示负号
 # 1、CDP与VPPO变为火电与电网公司
 # ——整体的模型描述
 # 2、改进工作一
@@ -77,7 +87,9 @@ P_demand_all = (1500 - np.sum(P_TP_base))
 
 df = pd.read_csv('price_income.csv')
 
-ration = 0.6
+ration = 0.4
+legacy_ration = 80.0
+legacy_scale_factor = 0.01
 
 # 计算风电和光伏预测出力
 total_demand = np.sum(P_demand)
@@ -240,18 +252,22 @@ p_max = 300
 
 
 # 风电优化子程序
-def WPV_sort(demand, R, p_max):
+def WPV_sort(demand, ration_value, p_max, scale_factor=1.0):
     n_periods = len(demand)
 
-    results_W, delta_W_0 = ElectricityMarket_W.main_optimization_W(R, p_max, demand)
+    results_W, delta_W_0 = ElectricityMarket_W.main_optimization_W(ration_value, p_max, demand, scale_factor=scale_factor)
 
-    results_PV, delta_PV_0 = ElectricityMarket_PV.main_optimization_PV(R, p_max, demand)
+    results_PV, delta_PV_0 = ElectricityMarket_PV.main_optimization_PV(ration_value, p_max, demand, scale_factor=scale_factor)
 
     # 直接访问您需要的变量
+    P_W_act = np.zeros(n_periods)
+    bids_W_act = np.zeros(n_periods)
     if results_W['wind']['success']:
         P_W_act = results_W['wind']['P_W_act']
         bids_W_act = results_W['wind']['bids_W_act']
 
+    P_PV_act = np.zeros(n_periods)
+    bids_PV_act = np.zeros(n_periods)
     if results_PV['solar']['success']:
         P_PV_act = results_PV['solar']['P_PV_act']
         bids_PV_act = results_PV['solar']['bids_PV_act']
@@ -355,6 +371,42 @@ def WPV_sort(demand, R, p_max):
         p_setting_PV.append(solar_alloc['p_setting'] if solar_alloc else 0)
 
     return wind_allocs, solar_allocs, wind_bids, solar_bids, demand_lo, delta_PV_0, delta_W_0, allocation_result, p_setting_W, p_setting_PV
+
+
+def run_analysis_snapshot(demand, ration_value, p_max, label, scale_factor=1.0):
+    df_local = load_price_income('price_income.csv')
+    inputs = prepare_market_inputs(demand, ration_value, df_local, scale_factor=scale_factor)
+    P_W_snap, P_PV_snap, bids_W_snap, bids_PV_snap, _, delta_PV_snap, delta_W_snap, allocation_snap, p_setting_W_snap, p_setting_PV_snap = WPV_sort(
+        demand, ration_value, p_max, scale_factor=scale_factor
+    )
+
+    diagnostics = build_market_diagnostics(
+        label=label,
+        demand=demand,
+        df=df_local,
+        p_w_pre=inputs['P_W_pre'],
+        p_pv_pre=inputs['P_PV_pre'],
+        p_w_act=P_W_snap,
+        p_pv_act=P_PV_snap,
+        bids_w=bids_W_snap,
+        bids_pv=bids_PV_snap,
+        p_setting_w=p_setting_W_snap,
+        p_setting_pv=p_setting_PV_snap,
+    )
+
+    return {
+        'diagnostics': diagnostics,
+        'P_W': np.array(P_W_snap, dtype=float),
+        'P_PV': np.array(P_PV_snap, dtype=float),
+        'bids_W': np.array(bids_W_snap, dtype=float),
+        'bids_PV': np.array(bids_PV_snap, dtype=float),
+        'p_setting_W': np.array(p_setting_W_snap, dtype=float),
+        'p_setting_PV': np.array(p_setting_PV_snap, dtype=float),
+        'delta_PV_0': np.array(delta_PV_snap, dtype=float),
+        'delta_W_0': np.array(delta_W_snap, dtype=float),
+        'allocation_result': allocation_snap,
+        'inputs': inputs,
+    }
 
 
 # 火和储能优化子程序-----------------------------------
@@ -792,7 +844,7 @@ PV_Profit_all = []
 p_max_all = [100]
 #
 
-for R in range(80, 81):
+for R in [ration]:
     P_W, P_PV, bids_W, bids_PV, remain, delta_PV_0, delta_W_0, allocation_result, p_setting_W, p_setting_PV = WPV_sort(
         P_demand, R, p_max)
     P_delta = compute_p_deltas(delta_W_0, delta_PV_0)
@@ -890,18 +942,38 @@ p_setting_PV = np.array(p_setting_PV)
 P_W = np.array(P_W)
 P_PV = np.array(P_PV)
 
-plt.plot(range(n), bids_W, marker='o', linestyle='-', color='b')
-plt.xlabel("Quarter")
-plt.ylabel("Objective Value")
-plt.title("W Bid Price")
-plt.grid(True)
+analysis_df = load_price_income('price_income.csv')
+corrected_inputs = prepare_market_inputs(P_demand, R, analysis_df, scale_factor=1.0)
+corrected_diagnostics = build_market_diagnostics(
+    label='统一口径',
+    demand=P_demand,
+    df=analysis_df,
+    p_w_pre=corrected_inputs['P_W_pre'],
+    p_pv_pre=corrected_inputs['P_PV_pre'],
+    p_w_act=P_W,
+    p_pv_act=P_PV,
+    bids_w=bids_W,
+    bids_pv=bids_PV,
+    p_setting_w=p_setting_W,
+    p_setting_pv=p_setting_PV,
+)
+legacy_snapshot = run_analysis_snapshot(
+    P_demand,
+    legacy_ration,
+    p_max,
+    label='现图口径',
+    scale_factor=legacy_scale_factor,
+)
+legacy_diagnostics = legacy_snapshot['diagnostics']
+
+print("\n" + "=" * 80)
+print(build_analysis_text(legacy_diagnostics, corrected_diagnostics))
+print("=" * 80)
+
+plot_bid_panels(legacy_diagnostics, corrected_diagnostics)
 plt.show()
 
-plt.plot(range(n), bids_PV, marker='o', linestyle='-', color='b')
-plt.xlabel("Quarter")
-plt.ylabel("Objective Value")
-plt.title("PV Bid Price")
-plt.grid(True)
+plot_residual_vs_bid(legacy_diagnostics, corrected_diagnostics)
 plt.show()
 
 plt.plot(range(n), p_setting_W, marker='o', linestyle='-', color='b')
@@ -1112,21 +1184,10 @@ plt.tight_layout()
 plt.show()
 
 # 准备共享的输入数据
-df = pd.read_csv('price_income.csv')
-
-# 计算风电和光伏预测出力
-total_demand = np.sum(P_demand)
-# print(total_demand)
-
-P_W_portion = df['W']
-total_W_portioin = np.sum(P_W_portion)
-P_W_pre = 0.01 * R * P_W_portion / total_W_portioin * total_demand
-# print(P_W_pre)
-
-P_PV_portion = df['PV']
-total_PV_portioin = np.sum(P_PV_portion)
-P_PV_pre = 0.01 * R * P_PV_portion / total_PV_portioin * total_demand
-# print(P_PV_pre)
+df = load_price_income('price_income.csv')
+final_inputs = prepare_market_inputs(P_demand, R, df, scale_factor=1.0)
+P_W_pre = final_inputs['P_W_pre']
+P_PV_pre = final_inputs['P_PV_pre']
 
 plt.figure(figsize=(15, 6))
 dimensions = [f'Dim {i + 1}' for i in range(24)]  # x轴标签
@@ -1135,7 +1196,7 @@ width = 0.6  # 柱状图宽度（覆盖整个维度）
 
 # 绘制堆叠柱状图
 plt.bar(x, P_W, width=width, label='W', color="#3B66DC", edgecolor='black')
-plt.bar(x, P_W_pre + delta_PV_0 - P_W, width=width, label='W', color="#9B9B9B", edgecolor='black', bottom=P_W)
+plt.bar(x, P_W_pre + delta_W_0 - P_W, width=width, label='W', color="#9B9B9B", edgecolor='black', bottom=P_W)
 
 # 添加标题、标签和图例
 plt.title('W Expile Power in 96 Quaters', fontsize=14)

@@ -2,6 +2,7 @@ import numpy as np
 from scipy.optimize import minimize
 import pandas as pd
 from Wasserstein import *
+from market_analysis_utils import generate_wasserstein_scenario, load_price_income, prepare_market_inputs
 
 
 class ElectricityMarket_PV:
@@ -200,51 +201,19 @@ class ElectricityMarket_PV:
             'message': f'PV optimization failed: {result.message}'
         }
 
-    def main_optimization_PV(ration, p_max, demand):
+    def main_optimization_PV(ration, p_max, demand, scale_factor=1.0):
         PV_profit_all = []
-        df = pd.read_csv('price_income.csv')
+        df = load_price_income('price_income.csv')
+        inputs = prepare_market_inputs(demand, ration, df, scale_factor=scale_factor)
+        P_W_pre = inputs['P_W_pre']
+        P_PV_pre = inputs['P_PV_pre']
 
-        total_demand = np.sum(demand)
+        scenario = generate_wasserstein_scenario(daylight_mask=P_PV_pre > 1e-6, seed=42)
+        print(f"Test distribution is within Wasserstein ball (epsilon={scenario['epsilon']}): {scenario['in_ball']}")
+        print(f"W(Fr, F1) = {scenario['w_dist_F1']:.4f}, within epsilon: {scenario['w_dist_F1'] <= scenario['epsilon']}")
 
-        P_W_portion = df['W']
-        total_W_portioin = np.sum(P_W_portion)
-        P_W_pre = 0.01 * ration * P_W_portion / total_W_portioin * total_demand
-
-        P_PV_portion = df['PV']
-        total_PV_portioin = np.sum(P_PV_portion)
-        P_PV_pre = 0.01 * ration * P_PV_portion / total_PV_portioin * total_demand
-
-        np.random.seed(42)
-        r = 1000
-        partial = 0.95
-
-        Fr_samples = np.random.normal(loc=0, scale=0.5, size=1000)
-        Fr_mean = np.mean(Fr_samples)
-        Fr_center = Fr_samples - Fr_mean
-        Fr_center_mean = np.mean(Fr_center ** 2)
-
-        optimal_rho, K = find_optimal_rho(Fr_center_mean)
-        epsilon = compute_eplsilon(K, partial, r)
-
-        in_ball = wasserstein_ball(Fr_samples, epsilon)
-        print(f"Test distribution is within Wasserstein ball (epsilon={epsilon}): {in_ball}")
-
-        F1_samples = generate_distribution_in_ball(Fr_samples, epsilon)
-
-        w_dist_F1 = wasserstein_distance(Fr_samples.flatten(), F1_samples.flatten())
-        print(f"W(Fr, F1) = {w_dist_F1:.4f}, within epsilon: {w_dist_F1 <= epsilon}")
-
-        delta_W_0 = extract_96_elements(F1_samples)
-        delta_PV_0 = extract_96_elements(F1_samples)
-
-        daylight_mask = P_PV_pre.to_numpy(dtype=float) > 1e-6
-        delta_PV_0 = np.array(delta_PV_0, dtype=float)
-        delta_PV_0[~daylight_mask] = 0.0
-
-        for i in range(28):
-            delta_PV_0[i] = 0
-        for i in range(89, 96):
-            delta_PV_0[i] = 0
+        delta_W_0 = scenario['delta_W_0']
+        delta_PV_0 = scenario['delta_PV_0']
 
         print("=" * 60)
         print("Start integrated PV optimization")
