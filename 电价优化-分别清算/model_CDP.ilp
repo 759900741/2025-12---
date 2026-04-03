@@ -1,0 +1,280 @@
+\ Model CDP_slave_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Maximize
+ 
+Subject To
+ P_CDP_max[0]: P_CDP[0] <= 25
+ P_CDP_max[4]: P_CDP[4] <= 25
+ P_CDP_max[5]: P_CDP[5] <= 25
+ P_CDP_max[8]: P_CDP[8] <= 25
+ P_CDP_max[9]: P_CDP[9] <= 25
+ P_CDP_max[10]: P_CDP[10] <= 25
+ P_CDP_max[13]: P_CDP[13] <= 25
+ P_CDP_max[14]: P_CDP[14] <= 25
+ P_CDP_max[16]: P_CDP[16] <= 25
+ P_CDP_max[17]: P_CDP[17] <= 25
+ P_CDP_max[18]: P_CDP[18] <= 25
+ P_CDP_max[20]: P_CDP[20] <= 25
+ P_CDP_max[21]: P_CDP[21] <= 25
+ P_CDP_max[22]: P_CDP[22] <= 25
+ P_CDP_max[23]: P_CDP[23] <= 25
+ P_CDP_max[24]: P_CDP[24] <= 25
+ P_CDP_max[25]: P_CDP[25] <= 25
+ P_CDP_max[26]: P_CDP[26] <= 25
+ P_CDP_max[27]: P_CDP[27] <= 25
+ P_CDP_max[30]: P_CDP[30] <= 25
+ P_CDP_max[32]: P_CDP[32] <= 25
+ P_CDP_max[33]: P_CDP[33] <= 25
+ P_CDP_max[39]: P_CDP[39] <= 25
+ P_CDP_max[40]: P_CDP[40] <= 25
+ P_CDP_max[41]: P_CDP[41] <= 25
+ P_CDP_max[42]: P_CDP[42] <= 25
+ P_CDP_max[45]: P_CDP[45] <= 25
+ P_CDP_max[46]: P_CDP[46] <= 25
+ P_CDP_max[47]: P_CDP[47] <= 25
+ P_CDP_max[48]: P_CDP[48] <= 25
+ P_CDP_max[49]: P_CDP[49] <= 25
+ P_CDP_max[51]: P_CDP[51] <= 25
+ P_CDP_max[52]: P_CDP[52] <= 25
+ P_CDP_max[55]: P_CDP[55] <= 25
+ P_CDP_max[56]: P_CDP[56] <= 25
+ P_CDP_max[60]: P_CDP[60] <= 25
+ P_CDP_max[61]: P_CDP[61] <= 25
+ P_CDP_max[62]: P_CDP[62] <= 25
+ P_CDP_max[63]: P_CDP[63] <= 25
+ P_CDP_max[67]: P_CDP[67] <= 25
+ P_CDP_max[68]: P_CDP[68] <= 25
+ P_CDP_max[69]: P_CDP[69] <= 25
+ P_CDP_max[70]: P_CDP[70] <= 25
+ P_CDP_max[72]: P_CDP[72] <= 25
+ P_CDP_max[73]: P_CDP[73] <= 25
+ P_CDP_max[74]: P_CDP[74] <= 25
+ P_CDP_max[75]: P_CDP[75] <= 25
+ P_CDP_max[77]: P_CDP[77] <= 25
+ P_CDP_max[79]: P_CDP[79] <= 25
+ P_CDP_max[81]: P_CDP[81] <= 25
+ P_CDP_max[83]: P_CDP[83] <= 25
+ P_CDP_max[86]: P_CDP[86] <= 25
+ P_CDP_max[88]: P_CDP[88] <= 25
+ P_CDP_max[89]: P_CDP[89] <= 25
+ P_CDP_max[90]: P_CDP[90] <= 25
+ P_CDP_max[91]: P_CDP[91] <= 25
+ P_CDP_max[92]: P_CDP[92] <= 25
+ P_CDP_max[94]: P_CDP[94] <= 25
+ P_CDP_max[95]: P_CDP[95] <= 25
+ P_CDP_up[1]: - P_CDP[0] + P_CDP[1] <= 10
+ P_CDP_up[6]: - P_CDP[5] + P_CDP[6] <= 10
+ P_CDP_up[11]: - P_CDP[10] + P_CDP[11] <= 10
+ P_CDP_up[15]: - P_CDP[14] + P_CDP[15] <= 10
+ P_CDP_up[19]: - P_CDP[18] + P_CDP[19] <= 10
+ P_CDP_up[34]: - P_CDP[33] + P_CDP[34] <= 10
+ P_CDP_up[35]: - P_CDP[34] + P_CDP[35] <= 10
+ P_CDP_up[36]: - P_CDP[35] + P_CDP[36] <= 10
+ P_CDP_up[37]: - P_CDP[36] + P_CDP[37] <= 10
+ P_CDP_up[38]: - P_CDP[37] + P_CDP[38] <= 10
+ P_CDP_up[43]: - P_CDP[42] + P_CDP[43] <= 10
+ P_CDP_up[50]: - P_CDP[49] + P_CDP[50] <= 10
+ P_CDP_up[57]: - P_CDP[56] + P_CDP[57] <= 10
+ P_CDP_up[58]: - P_CDP[57] + P_CDP[58] <= 10
+ P_CDP_up[59]: - P_CDP[58] + P_CDP[59] <= 10
+ P_CDP_up[78]: - P_CDP[77] + P_CDP[78] <= 10
+ P_CDP_up[80]: - P_CDP[79] + P_CDP[80] <= 10
+ P_CDP_up[82]: - P_CDP[81] + P_CDP[82] <= 10
+ P_CDP_up[84]: - P_CDP[83] + P_CDP[84] <= 10
+ P_CDP_up[93]: - P_CDP[92] + P_CDP[93] <= 10
+ P_CDP_down[3]: - P_CDP[2] + P_CDP[3] >= -10
+ P_CDP_down[4]: - P_CDP[3] + P_CDP[4] >= -10
+ P_CDP_down[8]: - P_CDP[7] + P_CDP[8] >= -10
+ P_CDP_down[13]: - P_CDP[12] + P_CDP[13] >= -10
+ P_CDP_down[29]: - P_CDP[28] + P_CDP[29] >= -10
+ P_CDP_down[30]: - P_CDP[29] + P_CDP[30] >= -10
+ P_CDP_down[32]: - P_CDP[31] + P_CDP[32] >= -10
+ P_CDP_down[45]: - P_CDP[44] + P_CDP[45] >= -10
+ P_CDP_down[54]: - P_CDP[53] + P_CDP[54] >= -10
+ P_CDP_down[55]: - P_CDP[54] + P_CDP[55] >= -10
+ P_CDP_down[65]: - P_CDP[64] + P_CDP[65] >= -10
+ P_CDP_down[66]: - P_CDP[65] + P_CDP[66] >= -10
+ P_CDP_down[67]: - P_CDP[66] + P_CDP[67] >= -10
+ P_CDP_down[72]: - P_CDP[71] + P_CDP[72] >= -10
+ P_CDP_down[77]: - P_CDP[76] + P_CDP[77] >= -10
+ P_CDP_down[86]: - P_CDP[85] + P_CDP[86] >= -10
+ P_CDP_down[88]: - P_CDP[87] + P_CDP[88] >= -10
+ Profit_PV_nneg: 9.983000000914165 P_CDP[0] + 9.983000000412108 P_CDP[1]
+   + 9.98300000068029 P_CDP[2] + 9.983000000708033 P_CDP[3]
+   + 9.983000000522335 P_CDP[4] + 9.983000000733941 P_CDP[5]
+   + 9.983000000722116 P_CDP[6] + 9.983000000613417 P_CDP[7]
+   + 9.983000000711197 P_CDP[8] + 9.983000000640464 P_CDP[9]
+   + 9.983000000694103 P_CDP[10] + 9.983000000517121 P_CDP[11]
+   + 9.983000000636499 P_CDP[12] + 9.98300000070348 P_CDP[13]
+   + 9.983000000517757 P_CDP[14] + 9.983000000505632 P_CDP[15]
+   + 9.983000000505182 P_CDP[16] + 9.983000000521013 P_CDP[17]
+   + 9.983000000488072 P_CDP[18] + 9.983000000510817 P_CDP[19]
+   + 9.983000000521255 P_CDP[20] + 9.983000000655952 P_CDP[21]
+   + 9.98300000039575 P_CDP[22] + 9.983000000414801 P_CDP[23]
+   + 9.983000000501949 P_CDP[24] + 9.983000000512058 P_CDP[25]
+   + 9.983000000637274 P_CDP[26] + 9.983000000672764 P_CDP[27]
+   + 9.98300000038002 P_CDP[28] + 9.983000000419498 P_CDP[29]
+   + 9.983000000411135 P_CDP[30] + 9.983000000395339 P_CDP[31]
+   + 9.98300000046903 P_CDP[32] + 9.983000000328166 P_CDP[33]
+   + 9.983000000578825 P_CDP[34] + 9.983000000374265 P_CDP[35]
+   + 9.983000000360134 P_CDP[36] + 9.983000000472924 P_CDP[37]
+   + 9.983000000488229 P_CDP[38] + 9.983000000490355 P_CDP[39]
+   + 9.983000000495215 P_CDP[40] + 9.983000000443509 P_CDP[41]
+   + 9.983000000521155 P_CDP[42] + 9.983000000522944 P_CDP[43]
+   + 9.983000000587554 P_CDP[44] + 9.983000000562759 P_CDP[45]
+   + 9.983000000322317 P_CDP[46] + 9.983000000307111 P_CDP[47]
+   + 9.983000000375119 P_CDP[48] + 9.983000000367245 P_CDP[49]
+   + 9.983000001522154 P_CDP[50] + 9.983000001114037 P_CDP[51]
+   + 9.983000000372169 P_CDP[52] + 9.983000000634316 P_CDP[53]
+   + 9.983000000671087 P_CDP[54] + 9.983000000480532 P_CDP[55]
+   + 9.983000000308275 P_CDP[56] + 9.983000000528708 P_CDP[57]
+   + 9.983000000449435 P_CDP[58] + 9.983000001413304 P_CDP[59]
+   + 9.983000001194251 P_CDP[60] + 9.98300000031583 P_CDP[61]
+   + 9.983000000371685 P_CDP[62] + 9.98300000034777 P_CDP[63]
+   + 9.983000000462587 P_CDP[64] + 9.983000000398603 P_CDP[65]
+   + 9.983000000414609 P_CDP[66] + 9.983000000539622 P_CDP[67]
+   + 9.983000000414739 P_CDP[68] + 9.983000000536235 P_CDP[69]
+   + 9.983000000440088 P_CDP[70] + 9.983000000512423 P_CDP[71]
+   + 9.983000000396244 P_CDP[72] + 9.983000000499214 P_CDP[73]
+   + 9.983000000372664 P_CDP[74] + 9.983000000570476 P_CDP[75]
+   + 9.983000000639418 P_CDP[76] + 9.983000000683557 P_CDP[77]
+   + 9.983000000650394 P_CDP[78] + 9.983000000407007 P_CDP[79]
+   + 9.983000000457441 P_CDP[80] + 9.983000000758405 P_CDP[81]
+   + 9.983000000596308 P_CDP[82] + 9.983000000604763 P_CDP[83]
+   + 9.983000000706847 P_CDP[84] + 9.983000000702686 P_CDP[85]
+   + 9.983000000756762 P_CDP[86] + 9.983000000711424 P_CDP[87]
+   + 9.983000000722551 P_CDP[88] + 9.983000000597539 P_CDP[89]
+   + 9.983000000700029 P_CDP[90] + 9.983000000709174 P_CDP[91]
+   + 9.983000000704392 P_CDP[92] + 9.98300000062965 P_CDP[93]
+   + 9.983000000676814 P_CDP[94] + 9.983000000719802 P_CDP[95] + [
+   - 0.008 P_CDP[0] ^2 - 0.008 P_CDP[1] ^2 - 0.008 P_CDP[2] ^2
+   - 0.008 P_CDP[3] ^2 - 0.008 P_CDP[4] ^2 - 0.008 P_CDP[5] ^2
+   - 0.008 P_CDP[6] ^2 - 0.008 P_CDP[7] ^2 - 0.008 P_CDP[8] ^2
+   - 0.008 P_CDP[9] ^2 - 0.008 P_CDP[10] ^2 - 0.008 P_CDP[11] ^2
+   - 0.008 P_CDP[12] ^2 - 0.008 P_CDP[13] ^2 - 0.008 P_CDP[14] ^2
+   - 0.008 P_CDP[15] ^2 - 0.008 P_CDP[16] ^2 - 0.008 P_CDP[17] ^2
+   - 0.008 P_CDP[18] ^2 - 0.008 P_CDP[19] ^2 - 0.008 P_CDP[20] ^2
+   - 0.008 P_CDP[21] ^2 - 0.008 P_CDP[22] ^2 - 0.008 P_CDP[23] ^2
+   - 0.008 P_CDP[24] ^2 - 0.008 P_CDP[25] ^2 - 0.008 P_CDP[26] ^2
+   - 0.008 P_CDP[27] ^2 - 0.008 P_CDP[28] ^2 - 0.008 P_CDP[29] ^2
+   - 0.008 P_CDP[30] ^2 - 0.008 P_CDP[31] ^2 - 0.008 P_CDP[32] ^2
+   - 0.008 P_CDP[33] ^2 - 0.008 P_CDP[34] ^2 - 0.008 P_CDP[35] ^2
+   - 0.008 P_CDP[36] ^2 - 0.008 P_CDP[37] ^2 - 0.008 P_CDP[38] ^2
+   - 0.008 P_CDP[39] ^2 - 0.008 P_CDP[40] ^2 - 0.008 P_CDP[41] ^2
+   - 0.008 P_CDP[42] ^2 - 0.008 P_CDP[43] ^2 - 0.008 P_CDP[44] ^2
+   - 0.008 P_CDP[45] ^2 - 0.008 P_CDP[46] ^2 - 0.008 P_CDP[47] ^2
+   - 0.008 P_CDP[48] ^2 - 0.008 P_CDP[49] ^2 - 0.008 P_CDP[50] ^2
+   - 0.008 P_CDP[51] ^2 - 0.008 P_CDP[52] ^2 - 0.008 P_CDP[53] ^2
+   - 0.008 P_CDP[54] ^2 - 0.008 P_CDP[55] ^2 - 0.008 P_CDP[56] ^2
+   - 0.008 P_CDP[57] ^2 - 0.008 P_CDP[58] ^2 - 0.008 P_CDP[59] ^2
+   - 0.008 P_CDP[60] ^2 - 0.008 P_CDP[61] ^2 - 0.008 P_CDP[62] ^2
+   - 0.008 P_CDP[63] ^2 - 0.008 P_CDP[64] ^2 - 0.008 P_CDP[65] ^2
+   - 0.008 P_CDP[66] ^2 - 0.008 P_CDP[67] ^2 - 0.008 P_CDP[68] ^2
+   - 0.008 P_CDP[69] ^2 - 0.008 P_CDP[70] ^2 - 0.008 P_CDP[71] ^2
+   - 0.008 P_CDP[72] ^2 - 0.008 P_CDP[73] ^2 - 0.008 P_CDP[74] ^2
+   - 0.008 P_CDP[75] ^2 - 0.008 P_CDP[76] ^2 - 0.008 P_CDP[77] ^2
+   - 0.008 P_CDP[78] ^2 - 0.008 P_CDP[79] ^2 - 0.008 P_CDP[80] ^2
+   - 0.008 P_CDP[81] ^2 - 0.008 P_CDP[82] ^2 - 0.008 P_CDP[83] ^2
+   - 0.008 P_CDP[84] ^2 - 0.008 P_CDP[85] ^2 - 0.008 P_CDP[86] ^2
+   - 0.008 P_CDP[87] ^2 - 0.008 P_CDP[88] ^2 - 0.008 P_CDP[89] ^2
+   - 0.008 P_CDP[90] ^2 - 0.008 P_CDP[91] ^2 - 0.008 P_CDP[92] ^2
+   - 0.008 P_CDP[93] ^2 - 0.008 P_CDP[94] ^2 - 0.008 P_CDP[95] ^2 ]
+   >= 28800.000001
+Bounds
+ P_CDP[0] free
+ P_CDP[1] free
+ P_CDP[2] free
+ P_CDP[3] free
+ P_CDP[4] free
+ P_CDP[5] free
+ P_CDP[6] free
+ P_CDP[7] free
+ P_CDP[8] free
+ P_CDP[9] free
+ P_CDP[10] free
+ P_CDP[11] free
+ P_CDP[12] free
+ P_CDP[13] free
+ P_CDP[14] free
+ P_CDP[15] free
+ P_CDP[16] free
+ P_CDP[17] free
+ P_CDP[18] free
+ P_CDP[19] free
+ P_CDP[20] free
+ P_CDP[21] free
+ P_CDP[22] free
+ P_CDP[23] free
+ P_CDP[24] free
+ P_CDP[25] free
+ P_CDP[26] free
+ P_CDP[27] free
+ P_CDP[28] free
+ P_CDP[29] free
+ P_CDP[30] free
+ P_CDP[31] free
+ P_CDP[32] free
+ P_CDP[33] free
+ P_CDP[34] free
+ P_CDP[35] free
+ P_CDP[36] free
+ P_CDP[37] free
+ P_CDP[38] free
+ P_CDP[39] free
+ P_CDP[40] free
+ P_CDP[41] free
+ P_CDP[42] free
+ P_CDP[43] free
+ P_CDP[44] free
+ P_CDP[45] free
+ P_CDP[46] free
+ P_CDP[47] free
+ P_CDP[48] free
+ P_CDP[49] free
+ P_CDP[50] free
+ P_CDP[51] free
+ P_CDP[52] free
+ P_CDP[53] free
+ P_CDP[54] free
+ P_CDP[55] free
+ P_CDP[56] free
+ P_CDP[57] free
+ P_CDP[58] free
+ P_CDP[59] free
+ P_CDP[60] free
+ P_CDP[61] free
+ P_CDP[62] free
+ P_CDP[63] free
+ P_CDP[64] free
+ P_CDP[65] free
+ P_CDP[66] free
+ P_CDP[67] free
+ P_CDP[68] free
+ P_CDP[69] free
+ P_CDP[70] free
+ P_CDP[71] free
+ P_CDP[72] free
+ P_CDP[73] free
+ P_CDP[74] free
+ P_CDP[75] free
+ P_CDP[76] free
+ P_CDP[77] free
+ P_CDP[78] free
+ P_CDP[79] free
+ P_CDP[80] free
+ P_CDP[81] free
+ P_CDP[82] free
+ P_CDP[83] free
+ P_CDP[84] free
+ P_CDP[85] free
+ P_CDP[86] free
+ P_CDP[87] free
+ P_CDP[88] free
+ P_CDP[89] free
+ P_CDP[90] free
+ P_CDP[91] free
+ P_CDP[92] free
+ P_CDP[93] free
+ P_CDP[94] free
+ P_CDP[95] free
+End
